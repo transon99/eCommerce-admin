@@ -9,10 +9,13 @@ interface paramsPops {
 }
 const url = API_URL_BRAND
 const brandApi = {
-  getAll: (params: paramsPops) => {
+  getByConditionAndPagination: (params: paramsPops) => {
     return axiosClient.get(url, {
       params
     })
+  },
+  getAll: () => {
+    return axiosClient.get(`${url}/all`)
   },
   delete: (id: string) => {
     return axiosClient.delete(`${url}/${id}`)

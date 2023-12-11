@@ -25,7 +25,6 @@ function SignIn() {
     const response = await authApi.login(data)
     setIsLoading(false)
     if (response.data.status === 'OK') {
-      console.log(response.data)
       setAccessToken(response.data.accessToken)
       setRefreshToken(response.data.refreshToken)
       navigate('/')

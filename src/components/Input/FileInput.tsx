@@ -8,10 +8,18 @@ type inputProps = {
 }
 
 const FileInput = ({ imageUrls, variant, register, name }: inputProps) => {
-  const [preview, setPreview] = useState<string | ArrayBuffer | null>(null)
+  const [previews, setPreviews] = useState<string[] | ArrayBuffer[] | null>([])
+
+  const previewF = (file: FileList) => {
+    let previewUrls = []
+    previewUrls = [...file].map((file) => {
+      return URL.createObjectURL(file)
+    })
+    return previewUrls
+  }
+
   const handleChange = (e: React.SyntheticEvent) => {
-    console.log('first')
-    setPreview(URL.createObjectURL(e.target.files[0]))
+    setPreviews(previewF(e.target.files))
   }
   return (
     <div>
@@ -27,6 +35,7 @@ const FileInput = ({ imageUrls, variant, register, name }: inputProps) => {
           //   }
           // })}
           {...register(name)}
+          multiple
           onChange={(e) => handleChange(e)}
           className='block w-full text-sm text-gray-500
             file:me-4 file:py-2 file:px-4
@@ -41,10 +50,11 @@ const FileInput = ({ imageUrls, variant, register, name }: inputProps) => {
     '
         />
       </label>
+
       {variant === 'ADD' ? (
-        preview && (
-          <p className='my-5 w-full '>
-            <img src={preview as string} alt='Upload preview' />
+        previews && (
+          <p className='my-5 w-full grid grid-cols-1 gap-4 md:grid-cols-2'>
+            {previews?.map((preview, index) => <img key={index} src={preview as string} alt='Upload preview' />)}
           </p>
         )
       ) : (

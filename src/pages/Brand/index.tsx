@@ -35,7 +35,7 @@ const BrandPage = () => {
           pageSize: 5,
           sortStr: ''
         }
-        const response = await brandApi.getAll(param)
+        const response = await brandApi.getByConditionAndPagination(param)
         console.log(response.data.data.content)
         setData(response.data.data.content)
       } catch (error) {
