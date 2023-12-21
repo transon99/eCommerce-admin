@@ -1,13 +1,13 @@
 interface Props {
   field: any
-  data: any[]
+  data: any[] | undefined
   name?: string
 }
 
 const ListBox = ({ field, data, name }: Props) => {
   return (
     <>
-      <div>
+      <div className='w-full md:min-w-[257px]'>
         {/* <label htmlFor='countries' className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'>
           Select an option
         </label> */}
@@ -20,7 +20,7 @@ const ListBox = ({ field, data, name }: Props) => {
           <option value='DEFAULT' disabled>
             {name}
           </option>
-          {data.map((item) => (
+          {data?.map((item) => (
             <option key={item.id} value={item.id}>
               {item.name}
             </option>

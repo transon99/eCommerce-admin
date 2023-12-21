@@ -4,13 +4,12 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 import { useTheme } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
-import * as React from 'react'
 import { toast } from 'react-toastify'
 import Swal from 'sweetalert2'
 
 import { API_URL_CATEGORY } from '@/constant/apiConstant'
 import { Button } from '@radix-ui/themes'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { MdEdit } from 'react-icons/md'
 import ActionBtn from '../ActionBtn'
 import FileInput from '../Input/FileInput'
@@ -18,6 +17,9 @@ import { Input } from '../Input/Input'
 import CustomButton from '../common/CustomButton'
 import './index.css'
 import axiosClient from '@/axios/axiosClient'
+import { ListBox } from '..'
+import { Fragment, useEffect, useState } from 'react'
+import categoryApi from '@/apis/categoryApi'
 
 interface PropTypes {
   varient: string
@@ -33,10 +35,24 @@ const TextH = ({ textProps }: InputProps) => {
 }
 
 const AddCategoryDiaglog = ({ varient, dataProps }: PropTypes) => {
-  const [open, setOpen] = React.useState(false)
-  const [isLoading, setIsLoading] = React.useState(false)
+  const [open, setOpen] = useState(false)
+  const [baseCategories, setBaseCategories] = useState<any[]>()
+  const [isLoading, setIsLoading] = useState(false)
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await categoryApi.getBaseCategory()
+        console.log(response.data)
+        setBaseCategories(response.data)
+      } catch (error) {
+        console.error('Error fetching data:', error)
+      }
+    }
+    fetchData()
+  }, [])
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -46,7 +62,7 @@ const AddCategoryDiaglog = ({ varient, dataProps }: PropTypes) => {
     setOpen(false)
   }
 
-  const { register, handleSubmit } = useForm()
+  const { register, handleSubmit, control } = useForm()
 
   const handleEditCategory = async (data: any, dataProps: Category | undefined) => {
     console.log('dataPro', dataProps)
@@ -86,11 +102,13 @@ const AddCategoryDiaglog = ({ varient, dataProps }: PropTypes) => {
 
   const handleAddCategory = async (data: any) => {
     const reqConfig: CategoryRequest = {
-      name: data.name
+      name: data.name,
+      parentCatId: data.baseCategory ? data.baseCategory : ''
     }
     const formData = new FormData()
     formData.append('data', JSON.stringify(reqConfig))
     formData.append('image', data.imageUrl[0])
+    formData.append('icon', data.iconUrl[0])
     setIsLoading(true)
     const result: responseType = await axiosClient.post(API_URL_CATEGORY, formData, {
       headers: {
@@ -118,7 +136,7 @@ const AddCategoryDiaglog = ({ varient, dataProps }: PropTypes) => {
   }
 
   return (
-    <React.Fragment>
+    <Fragment>
       <div onClick={handleClickOpen}>
         {varient === 'ADD' ? (
           <Button size='3' radius='full' className='w-full !cursor-pointer hover:bg-[#263E7B] bg-[#2f62ff3c] '>
@@ -152,9 +170,19 @@ const AddCategoryDiaglog = ({ varient, dataProps }: PropTypes) => {
                   placeholder='Enter categry name...'
                 />
               </div>
+
+              <div className='w-full'>
+                <TextH textProps='Base Category' />
+                <Controller
+                  name='baseCategory'
+                  control={control}
+                  render={({ field }) => <ListBox field={field} data={baseCategories} name='' />}
+                />
+              </div>
             </div>
             <div className='mt-4 grid grid-cols-1 gap-4 md:grid-cols-2'>
               <FileInput imageUrls={dataProps?.imageUrls} variant={varient} register={register} name='imageUrl' />
+              <FileInput imageUrls={dataProps?.iconUrl} variant={varient} register={register} name='iconUrl' />
             </div>
             <div className='mt-[25px] flex justify-end'>
               <div className='flex gap-4'>
@@ -176,7 +204,7 @@ const AddCategoryDiaglog = ({ varient, dataProps }: PropTypes) => {
           </form>
         </DialogContent>
       </Dialog>
-    </React.Fragment>
+    </Fragment>
   )
 }
 

@@ -10,7 +10,7 @@ const axiosClient = axios.create({
 })
 
 axiosClient.interceptors.request.use(async (config) => {
-  const access_token = JSON.parse(localStorage.getItem('userStore') || '{}').state.access_token
+  const access_token = JSON.parse(localStorage?.getItem('userStore') || '{}')?.state?.access_token
   if (access_token) {
     config.headers.Authorization = `Bearer ${access_token}`
   }
@@ -24,8 +24,8 @@ axiosClient.interceptors.response.use(
     return response
   },
   (error) => {
-    console.log(error.response.data.message)
-    return error.response.data
+    console.log(error)
+    // return error.response.data
   }
 )
 export default axiosClient

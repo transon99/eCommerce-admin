@@ -2,17 +2,21 @@
 
 import brandApi from '@/apis/brandApi'
 import categoryApi from '@/apis/categoryApi'
-import { AddProductDialog, CardItem, FilterListBox } from '@/components'
+import { AddProductDialog, CardItem, ListBox } from '@/components'
 import Search from '@/components/Search'
+import { CustomButton } from '@/components/common'
 import { Flex, Text } from '@radix-ui/themes'
 import { useEffect, useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
 import { BsCpu } from 'react-icons/bs'
 
 const Product = () => {
+  const { handleSubmit, control } = useForm()
+  const [categoryId, setCategoryId] = useState<string>('')
+  const [brandId, setBrandId] = useState<string>('')
+
   const [categories, setCategories] = useState<Category[]>([])
   const [brands, setBrands] = useState<Brand[]>([])
-
-  console.log(categories)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,8 +32,8 @@ const Product = () => {
     fetchData()
   }, [])
 
-  const handleChangeFilter = (filterData: string) => {
-    console.log('filter', filterData)
+  const handleFilter = (data: any) => {
+    console.log('filter', data)
   }
 
   return (
@@ -65,17 +69,40 @@ const Product = () => {
             gap={'3'}
             className=' bg-secondary card !p-5  items-center gap-4 min-w-[218px] rounded-xl'
           >
-            <div className='p-2 bg-[#263E7B] rounded-lg'>
-              <BsCpu />
-            </div>
-            <Text as={'p'} size={'5'} weight={'bold'}>
-              CPU
-            </Text>
+            {categoryId ? (
+              <>
+                <div className='p-2 bg-[#263E7B] rounded-lg'>
+                  <img src='' alt='' />
+                </div>
+                <Text as={'p'} size={'5'} weight={'bold'}>
+                  CPU
+                </Text>
+              </>
+            ) : null}
           </Flex>
-          <div className='flex gap-2.5 sm:gap-[26px] '>
-            <FilterListBox onChange={handleChangeFilter} datas={categories} name='Cateegory' />
-            <FilterListBox onChange={handleChangeFilter} datas={brands} name='Brand' />
-          </div>
+          <form
+            className='flex justify-center items-center gap-2.5 sm:gap-[26px] '
+            onSubmit={handleSubmit((data) => {
+              handleFilter(data)
+            })}
+          >
+            {/* <FilterListBox onChange={handleChangeFilter} datas={categories} name='Category' />
+            <FilterListBox onChange={handleChangeFilter} datas={brands} name='Brand' /> */}
+            <Controller
+              name='category'
+              control={control}
+              render={({ field }) => <ListBox field={field} data={categories} name='Category' />}
+            />
+
+            <Controller
+              name='brand'
+              control={control}
+              render={({ field }) => <ListBox field={field} data={brands} name='Brand' />}
+            />
+            <CustomButton className='bg-[#263E7B] !cursor-pointer text-primary hover:bg-green5 focus:shadow-green7 inline-flex h-[35px] items-center justify-center rounded-[4px] px-[15px] font-medium leading-none focus:shadow-[0_0_0_2px] focus:outline-none'>
+              Search
+            </CustomButton>
+          </form>
         </div>
       </div>
       <div

@@ -10,6 +10,7 @@ interface ManageCategoryClientProps {
 }
 
 const ManageCategoryClient: React.FC<ManageCategoryClientProps> = ({ categories }) => {
+  console.log(categories)
   let rows: any = []
 
   const handleDelete = (id: string) => {
@@ -18,11 +19,14 @@ const ManageCategoryClient: React.FC<ManageCategoryClientProps> = ({ categories 
   }
 
   if (categories) {
-    rows = categories.map((category) => {
+    rows = categories?.map((category) => {
+      console.log('category: ', category)
       return {
         id: category.id,
         name: category.name,
-        imageUrls: category.imageUrls
+        baseCategory: category.baseCategory,
+        imageUrls: category.imageUrls,
+        iconUrl: category.iconUrl
       }
     })
   }
@@ -30,16 +34,28 @@ const ManageCategoryClient: React.FC<ManageCategoryClientProps> = ({ categories 
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 220 },
     { field: 'name', headerName: 'Name', width: 220 },
+    { field: 'baseCategory', headerName: 'Base Category', width: 220 },
     {
       field: 'imageUrl',
       headerName: 'Image',
-      width: 220,
+      width: 120,
       renderCell: (param) => {
         return (
           <div className='w-10 h-10 rounded-lg overflow-hidden'>
-            {param.row.imageUrls.map((imageUrl: any) => (
-              <img key={imageUrl.id} src={imageUrl.thumbnailUrl} />
-            ))}
+            {param.row.imageUrls?.map((imageUrl: any) => <img key={imageUrl.id} src={imageUrl.thumbnailUrl} />)}
+          </div>
+        )
+      }
+    },
+    {
+      field: 'iconUrl',
+      headerName: 'Icon',
+      width: 120,
+      renderCell: (param) => {
+        console.log('pảe', param)
+        return (
+          <div className='w-10 h-10 rounded-lg overflow-hidden'>
+            <img key={param.row.iconUrl?.id} src={param.row.iconUrl?.thumbnailUrl} />
           </div>
         )
       }

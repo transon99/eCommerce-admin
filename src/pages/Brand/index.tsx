@@ -68,7 +68,7 @@ const BrandPage = () => {
             <Text>
               Category:{' '}
               <Text weight={'bold'}>
-                All <Text weight={'light'}>(16)</Text>
+                All <Text weight={'light'}>({data ? data.length : 0})</Text>
               </Text>
             </Text>
             <div className='flex flex-col gap-4 md:flex-row md:items-center md:justify-between'>

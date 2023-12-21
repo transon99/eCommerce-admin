@@ -3,6 +3,7 @@ import { BsFillBoxSeamFill } from 'react-icons/bs'
 import { FaHome, FaShoppingCart, FaUserEdit } from 'react-icons/fa'
 import { BiSolidCategory } from 'react-icons/bi'
 import { IoTicket } from 'react-icons/io5'
+import { FaImage } from 'react-icons/fa'
 
 import { IconType } from 'react-icons'
 import { Link, useLocation } from 'react-router-dom'
@@ -48,6 +49,11 @@ function SideBar() {
       Icon: FaUserEdit,
       href: '/user',
       layble: 'User'
+    },
+    {
+      Icon: FaImage,
+      href: '/banner',
+      layble: 'Banner'
     }
   ]
 

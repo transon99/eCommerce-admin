@@ -18,7 +18,7 @@ const CategoryPage = () => {
           pageSize: 5,
           sortStr: ''
         }
-        const response = await categoryApi.getAll(param)
+        const response = await categoryApi.getByConditionAndPagination(param)
         console.log(response.data.data.content)
         setData(response.data.data.content)
       } catch (error) {
@@ -57,7 +57,7 @@ const CategoryPage = () => {
           <Text>
             Category:{' '}
             <Text weight={'bold'}>
-              All <Text weight={'light'}>({data.length})</Text>
+              All <Text weight={'light'}>({data ? data.length : 0})</Text>
             </Text>
           </Text>
           {/* <div className='flex flex-col gap-4 md:flex-row md:items-center md:justify-between'>
