@@ -1,23 +1,24 @@
 type Product = {
-  productName?: string
+  id?: string
+  name?: string
   description?: string
-  imageUrls?: any
+  thumbnailUrls?: any
   sku?: string
-  price?: number
-  brandName?: string
+  priceUnit?: number
+  brand?: Brand
   quantity?: number
-  categoryName?: string
-  discount?: string
+  category?: Category
+  discount?: number
 }
 
 type ProductRequest = {
-  productName?: string
+  name?: string
   description?: string
   imageUrls?: any
   sku?: string
-  price?: number
-  brandName?: string
+  priceUnit?: number
+  brandId?: string
   quantity?: number
-  categoryName?: string
+  categoryId?: string
   discount?: string
 }

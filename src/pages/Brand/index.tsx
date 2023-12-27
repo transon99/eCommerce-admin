@@ -4,21 +4,25 @@ import Search from '@/components/Search'
 import ManageBrandClient from '@/components/Table/ManageBrandClient'
 import { Flex, Text } from '@radix-ui/themes'
 import brandApi from '@/apis/brandApi'
+import { GridColDef } from '@mui/x-data-grid'
+import { DataTable } from '@/components/Table'
 
-const LableTHeader: string[] = ['BRAND_ID', 'NAME', 'IMAGE']
-
-const data = [
+const columns: GridColDef[] = [
+  { field: 'id', headerName: 'ID', width: 220 },
+  { field: 'name', headerName: 'Name', width: 220 },
   {
-    brandId: '1',
-    name: 'Brand 1',
-    image:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80'
-  },
-  {
-    brandId: '2',
-    name: 'Brand 2',
-    image:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80'
+    field: 'imageUrl',
+    headerName: 'Image',
+    width: 220,
+    renderCell: (param) => {
+      return (
+        <div className='w-16 h-9 rounded-lg overflow-hidden'>
+          {param.row.imageUrls.map((imageUrl: any) => (
+            <img key={imageUrl.id} src={imageUrl.thumbnailUrl} />
+          ))}
+        </div>
+      )
+    }
   }
 ]
 
@@ -59,9 +63,6 @@ const BrandPage = () => {
           <Flex direction={'column'} gap={'3'}>
             <AddBrandDiaglog varient='ADD' />
           </Flex>
-          <div className='relative lg:w-[326px]'>
-            <Search placeholder='Search Category ...' />
-          </div>
         </div>
         <div className='flex flex-col flex-1 p-5 text-primary'>
           <div className='flex flex-wrap gap-2 mb-4 items-center justify-between'>
@@ -76,7 +77,7 @@ const BrandPage = () => {
             </div>
           </div>
           <div className='mt-5 rounded-xl'>
-            <ManageBrandClient brands={data} />
+            <DataTable columns={columns} rows={data} />
           </div>
         </div>
       </div>

@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom'
 import './chartBox.scss'
 import { Line, LineChart, ResponsiveContainer, Tooltip } from 'recharts'
+import { IconType } from 'react-icons'
 
 type Props = {
   color: string
-  icon: string
+  Icon: IconType
   title: string
   dataKey: string
   number: number | string
@@ -13,11 +14,12 @@ type Props = {
 }
 
 const ChartBox = (props: Props) => {
+  const { Icon } = props
   return (
     <div className='chartBox'>
       <div className='boxInfo'>
         <div className='title'>
-          <img src={props.icon} alt='' />
+          <Icon />
           <span>{props.title}</span>
         </div>
         <h1>{props.number}</h1>

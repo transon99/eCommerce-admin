@@ -12,7 +12,7 @@ import Swal from 'sweetalert2'
 
 import axiosClient from '@/axios/axiosClient'
 import ListBox from '@/components/Input/ListBox'
-import { API_URL_CATEGORY } from '@/constant/apiConstant'
+import { API_URL_CATEGORY, API_URL_PRODUCT } from '@/constant/apiConstant'
 import { Button } from '@radix-ui/themes'
 import { Controller, useForm } from 'react-hook-form'
 import FileInput from '../Input/FileInput'
@@ -22,8 +22,9 @@ import './index.css'
 
 interface PropTypes {
   varient: string
-  data?: TAddProduct
-  categoriesData: Category[]
+  data?: ProductRequest
+  categoriesData?: Category[]
+  brandsData?: Brand[]
 }
 
 interface InputProps {
@@ -34,7 +35,7 @@ const TextH = ({ textProps }: InputProps) => {
   return <p className='text-primary my-2'>{textProps}</p>
 }
 
-const AddProductDiaLog = ({ varient, data, categoriesData }: PropTypes) => {
+const AddProductDiaLog = ({ varient, data, categoriesData, brandsData }: PropTypes) => {
   const [open, setOpen] = React.useState(false)
   const [isLoading, setIsLoading] = React.useState(false)
   const theme = useTheme()
@@ -50,7 +51,7 @@ const AddProductDiaLog = ({ varient, data, categoriesData }: PropTypes) => {
 
   const { register, handleSubmit, control } = useForm()
 
-  const handleEditCategory = async (data: any, dataProps: Category | undefined) => {
+  const handleEditProduct = async (data: any, dataProps: Category | undefined) => {
     console.log('dataPro', dataProps)
     console.log('data:', data)
     const reqConfig: CategoryRequest = {
@@ -87,37 +88,45 @@ const AddProductDiaLog = ({ varient, data, categoriesData }: PropTypes) => {
   }
 
   const handleAddProduct = async (data: any) => {
-    console.log('data', data)
-    // const reqConfig: CategoryRequest = {
-    //   name: data.name
-    // }
-    // const formData = new FormData()
-    // formData.append('data', JSON.stringify(reqConfig))
-    // formData.append('image', data.imageUrl[0])
-    // setIsLoading(true)
-    // const result: responseType = await axiosClient.post(API_URL_CATEGORY, formData, {
-    //   headers: {
-    //     'Content-Type': 'multipart/form-data'
-    //   }
-    // })
-    // setIsLoading(false)
+    const reqConfig: ProductRequest = {
+      name: data.productName,
+      description: data.description,
+      sku: data.sku,
+      priceUnit: data.price,
+      brandId: data.brand,
+      quantity: data.quantity,
+      categoryId: data.category,
+      discount: data.discount
+    }
+    const formData = new FormData()
+    formData.append('data', JSON.stringify(reqConfig))
+    for (var x = 0; x < data.imageUrls.length; x++) {
+      formData.append('images', data.imageUrls[x])
+    }
+    setIsLoading(true)
+    const result: responseType = await axiosClient.post(API_URL_PRODUCT, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    setIsLoading(false)
 
-    // if (result.status === 'OK') {
-    //   Swal.fire({
-    //     title: 'Congratulations !',
-    //     text: result.message,
-    //     icon: 'success',
-    //     showCloseButton: true,
-    //     confirmButtonText: 'Close'
-    //   }).then(({ isConfirmed }) => {
-    //     if (isConfirmed) {
-    //       handleClose()
-    //       window.location.reload()
-    //     }
-    //   })
-    // } else {
-    //   toast.error(result.message)
-    // }
+    if (result.status === 'OK') {
+      Swal.fire({
+        title: 'Congratulations !',
+        text: result.message,
+        icon: 'success',
+        showCloseButton: true,
+        confirmButtonText: 'Close'
+      }).then(({ isConfirmed }) => {
+        if (isConfirmed) {
+          handleClose()
+          window.location.reload()
+        }
+      })
+    } else {
+      toast.error(result.message)
+    }
   }
 
   return (
@@ -178,9 +187,9 @@ const AddProductDiaLog = ({ varient, data, categoriesData }: PropTypes) => {
                 <div className='w-full'>
                   <TextH textProps='Brand Name' />
                   <Controller
-                    name='category'
+                    name='brand'
                     control={control}
-                    render={({ field }) => <ListBox field={field} data={[]} name='Brand' />}
+                    render={({ field }) => <ListBox field={field} data={brandsData} name='Brand' />}
                   />
                 </div>
                 <div className='w-full'>
@@ -207,7 +216,7 @@ const AddProductDiaLog = ({ varient, data, categoriesData }: PropTypes) => {
                 <div className='w-full'>
                   <TextH textProps='Discount' />
                   <Input
-                    name='price'
+                    name='discount'
                     register={register}
                     type='number'
                     // defaulValue={data?.categoryName}
@@ -229,7 +238,7 @@ const AddProductDiaLog = ({ varient, data, categoriesData }: PropTypes) => {
                 <div className='w-full'>
                   <TextH textProps='Quantity in Stock' />
                   <Input
-                    name='price'
+                    name='quantity'
                     register={register}
                     type='number'
                     // defaulValue={data?.categoryName}
@@ -239,7 +248,7 @@ const AddProductDiaLog = ({ varient, data, categoriesData }: PropTypes) => {
               </div>
             </div>
             <div className='mt-4 '>
-              <FileInput register={register} variant={varient} name='imageUrl1' />
+              <FileInput register={register} variant={varient} name='imageUrls' />
             </div>
             <div className='mt-[25px] flex justify-end'>
               <div className='flex gap-4'>

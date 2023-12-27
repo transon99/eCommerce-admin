@@ -52,7 +52,6 @@ const ManageCategoryClient: React.FC<ManageCategoryClientProps> = ({ categories 
       headerName: 'Icon',
       width: 120,
       renderCell: (param) => {
-        console.log('pảe', param)
         return (
           <div className='w-10 h-10 rounded-lg overflow-hidden'>
             <img key={param.row.iconUrl?.id} src={param.row.iconUrl?.thumbnailUrl} />

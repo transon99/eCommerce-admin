@@ -1,1 +1,1 @@
-export { default as ManageCategoryClient } from './ManageCategoryClient'
+export { default as DataTable } from './DataTable'

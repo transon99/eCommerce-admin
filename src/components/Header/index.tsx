@@ -3,7 +3,6 @@ import { BellIcon } from '@radix-ui/react-icons'
 import { Flex } from '@radix-ui/themes'
 import { Link } from 'react-router-dom'
 
-import Input from '../Search'
 import DropdownUser from './DropdownUser'
 import { useAppStore } from '@/store/useAppStore'
 
@@ -42,9 +41,6 @@ const Header = () => {
             ADMIN
           </span>
         </Link>
-        <div className='hidden md:block'>
-          <Input placeholder='Sreach ...' />
-        </div>
         <Flex align={'center'}>
           <div className='bg-gray-400 bg- p-1 rounded-full'>
             <BellIcon className='h-6 w-6 hover:cursor-pointer' />

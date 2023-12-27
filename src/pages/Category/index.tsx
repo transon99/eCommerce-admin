@@ -1,9 +1,39 @@
 import { useState, useEffect } from 'react'
-import Search from '@/components/Search'
 import { Flex, Text } from '@radix-ui/themes'
-import { ManageCategoryClient } from '@/components/Table'
 import { AddCategoryDiaglog } from '@/components/Dialog'
 import categoryApi from '@/apis/categoryApi'
+import { GridColDef } from '@mui/x-data-grid'
+import DataTable from '@/components/Table/DataTable'
+
+const columns: GridColDef[] = [
+  { field: 'id', headerName: 'ID', width: 220 },
+  { field: 'name', headerName: 'Name', width: 220 },
+  { field: 'baseCategory', headerName: 'Base Category', width: 220 },
+  {
+    field: 'imageUrl',
+    headerName: 'Image',
+    width: 120,
+    renderCell: (param) => {
+      return (
+        <div className='w-10 h-10 rounded-lg overflow-hidden'>
+          {param.row.imageUrls?.map((imageUrl: any) => <img key={imageUrl.id} src={imageUrl.thumbnailUrl} />)}
+        </div>
+      )
+    }
+  },
+  {
+    field: 'iconUrl',
+    headerName: 'Icon',
+    width: 120,
+    renderCell: (param) => {
+      return (
+        <div className='w-10 h-10 rounded-lg overflow-hidden'>
+          <img key={param.row.iconUrl?.id} src={param.row.iconUrl?.thumbnailUrl} />
+        </div>
+      )
+    }
+  }
+]
 
 const CategoryPage = () => {
   const [data, setData] = useState<Category[]>([])
@@ -27,12 +57,6 @@ const CategoryPage = () => {
     }
     fetchData()
   }, [])
-  // const [selectedCountry, setSelectedCountry] = useState('')
-
-  // const handleListBoxChange = (value: string) => {
-  //   setSelectedCountry(value)
-  //   console.log(value)
-  // }
 
   return (
     <div className='h-[calc(100vh-88px)] overflow-auto'>
@@ -48,9 +72,6 @@ const CategoryPage = () => {
         <Flex direction={'column'} gap={'3'}>
           <AddCategoryDiaglog varient='ADD' />
         </Flex>
-        <div className='relative lg:w-[326px]'>
-          <Search placeholder='Search Category ...' />
-        </div>
       </div>
       <div className='flex flex-col flex-1 p-5 text-primary'>
         <div className='flex flex-wrap gap-2 mb-4 items-center justify-between'>
@@ -60,12 +81,9 @@ const CategoryPage = () => {
               All <Text weight={'light'}>({data ? data.length : 0})</Text>
             </Text>
           </Text>
-          {/* <div className='flex flex-col gap-4 md:flex-row md:items-center md:justify-between'>
-            <FilterListBox onChange={handleListBoxChange} />
-          </div> */}
         </div>
         <div className='mt-5 rounded-xl'>
-          <ManageCategoryClient categories={data} />
+          <DataTable slug='users' columns={columns} rows={data} />
         </div>
       </div>
     </div>

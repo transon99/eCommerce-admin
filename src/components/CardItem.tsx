@@ -1,15 +1,17 @@
 import { Button, Card, Flex, Heading, Text } from '@radix-ui/themes'
-import { FaPencil } from 'react-icons/fa6'
 import { Link } from 'react-router-dom'
 import { AddProductDialog } from '.'
 
-const CardItem = () => {
+interface Props extends Product {}
+
+const CardItem = (props: Props) => {
+  const salePrice = (1 - (props?.discount ?? 0) / 100) * (props?.priceUnit ?? 0)
   return (
-    <div className='bg-secondary'>
+    <div className='bg-secondary' key={props.id}>
       <Card size='2' className='!bg-secondary text-primary'>
         <Flex direction={'column'} gap={'3'}>
           <img
-            src='https://images.unsplash.com/photo-1617050318658-a9a3175e34cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80'
+            src={props?.thumbnailUrls[0]?.thumbnailUrl}
             alt='Bold typography'
             style={{
               display: 'block',
@@ -23,21 +25,24 @@ const CardItem = () => {
           <Flex direction={'column'} gap={'2'}>
             <Link to='/'>
               <Heading as='h3' className='text-base'>
-                PlayStation 5 Gaming Console
+                {props.name}
               </Heading>
             </Link>
 
             <Text as='p' size='3' weight={'medium'} className='text-[#00BA9D] leading-[1.4]'>
-              Available : 200
+              {`Available : ${props.quantity}`}
             </Text>
-            <Text as='p' size='3' weight={'medium'} className='text-[#4F89FC] leading-[1.4]'>
+            {/* <Text as='p' size='3' weight={'medium'} className='text-[#4F89FC] leading-[1.4]'>
               Already sold : 158
+            </Text> */}
+            <Text as='p' size='3' weight={'medium'} className='text-[#4F89FC] leading-[1.4]'>
+              {`Discount : ${props.discount}%`}
             </Text>
             <Text as='p' size='3' weight={'medium'} className='text-white leading-[1.4]'>
-              Regular price : $199
+              {`Regular price : ${props.priceUnit}`}
             </Text>
             <Text as='p' size='3' weight={'medium'} className='text-white leading-[1.4]'>
-              Sale price : $199
+              {`Sale price : ${salePrice}`}
             </Text>
           </Flex>
         </Flex>

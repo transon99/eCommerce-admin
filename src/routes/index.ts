@@ -1,4 +1,5 @@
 import { Brand, Category, Dashboard, Order, User } from '@/pages'
+import Banner from '@/pages/Banner'
 import Product from '@/pages/Product'
 
 const coreRoutes = [
@@ -31,6 +32,11 @@ const coreRoutes = [
     path: '/user',
     title: 'User',
     component: User
+  },
+  {
+    path: '/banner',
+    title: 'Banner',
+    component: Banner
   }
 ]
 

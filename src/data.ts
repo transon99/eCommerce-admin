@@ -169,7 +169,6 @@ export const topDealUsers = [
 
 export const chartBoxUser = {
   color: '#8884d8',
-  icon: '/userIcon.svg',
   title: 'Total Users',
   number: '11.238',
   dataKey: 'users',
@@ -187,7 +186,6 @@ export const chartBoxUser = {
 
 export const chartBoxProduct = {
   color: 'skyblue',
-  icon: '/productIcon.svg',
   title: 'Total Products',
   number: '238',
   dataKey: 'products',
@@ -204,7 +202,6 @@ export const chartBoxProduct = {
 }
 export const chartBoxRevenue = {
   color: 'teal',
-  icon: '/revenueIcon.svg',
   title: 'Total Revenue',
   number: '$56.432',
   dataKey: 'revenue',
@@ -219,21 +216,20 @@ export const chartBoxRevenue = {
     { name: 'Sat', revenue: 450 }
   ]
 }
-export const chartBoxConversion = {
+export const chartBoxOrder = {
   color: 'gold',
-  icon: '/conversionIcon.svg',
-  title: 'Total Ratio',
+  title: 'Total Order',
   number: '2.6',
-  dataKey: 'ratio',
+  dataKey: 'order',
   percentage: 12,
   chartData: [
-    { name: 'Sun', ratio: 400 },
-    { name: 'Mon', ratio: 600 },
-    { name: 'Tue', ratio: 500 },
-    { name: 'Wed', ratio: 700 },
-    { name: 'Thu', ratio: 400 },
-    { name: 'Fri', ratio: 500 },
-    { name: 'Sat', ratio: 450 }
+    { name: 'Sun', order: 400 },
+    { name: 'Mon', order: 600 },
+    { name: 'Tue', order: 500 },
+    { name: 'Wed', order: 700 },
+    { name: 'Thu', order: 400 },
+    { name: 'Fri', order: 500 },
+    { name: 'Sat', order: 450 }
   ]
 }
 
