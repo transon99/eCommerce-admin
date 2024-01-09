@@ -1,6 +1,5 @@
 import bannerApi from '@/apis/bannerApi'
-import { AddBannerDiaglog } from '@/components/Dialog'
-import Search from '@/components/Search'
+import { AddBannerDialog } from '@/components/Dialog'
 import { DataTable } from '@/components/Table'
 import { GridColDef } from '@mui/x-data-grid'
 import { Flex, Text } from '@radix-ui/themes'
@@ -24,6 +23,8 @@ const columns: GridColDef[] = [
 ]
 
 const Banner = () => {
+  const editBanner = (data: any) => <AddBannerDialog varient='EDIT' dataProps={data} />
+
   const [data, setData] = useState<Banner[]>([])
   console.log(data)
 
@@ -59,7 +60,7 @@ lg:items-center lg:gap-4 '
           </div>
           <div className='flex flex-col-reverse gap-4  md:flex-col lg:flex-row lg:justify-between p-5 pt-0'>
             <Flex direction={'column'} gap={'3'}>
-              <AddBannerDiaglog varient='ADD' />
+              <AddBannerDialog varient='ADD' />
             </Flex>
           </div>
           <div className='flex flex-col flex-1 p-5 text-primary'>
@@ -75,7 +76,7 @@ lg:items-center lg:gap-4 '
               </div>
             </div>
             <div className='mt-5 rounded-xl'>
-              <DataTable columns={columns} rows={data} />
+              <DataTable slug='branners' columns={columns} rows={data} editBtn={editBanner} />
             </div>
           </div>
         </div>

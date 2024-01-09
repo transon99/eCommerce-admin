@@ -7,7 +7,7 @@ interface Props {
   className?: string
   name: string
   register: UseFormRegister<any>
-  defaulValue?: string
+  defaulValue?: string | number
 }
 
 export const Input = ({ type, name, register, className, placeholder, defaulValue }: Props) => {

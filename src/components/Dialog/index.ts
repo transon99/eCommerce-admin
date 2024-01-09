@@ -1,3 +1,5 @@
-export { default as AddCategoryDiaglog } from './AddCategoryDiaglog'
-export { default as AddBrandDiaglog } from './AddBrandDiaglog'
-export { default as AddBannerDiaglog } from './AddBannerDiaglog'
+export { default as AddCategoryDialog } from './AddCategoryDialog'
+export { default as AddBrandDialog } from './AddBrandDialog'
+export { default as AddBannerDialog } from './AddBannerDialog'
+export { default as AddProductDialog } from './AddProductDialog'
+export { default as EditOrderDialog } from './EditOrderDialog'

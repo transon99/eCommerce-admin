@@ -12,7 +12,6 @@ import { Button } from '@radix-ui/themes'
 import { Controller, useForm } from 'react-hook-form'
 import { MdEdit } from 'react-icons/md'
 import ActionBtn from '../ActionBtn'
-import FileInput from '../Input/FileInput'
 import { Input } from '../Input/Input'
 import CustomButton from '../common/CustomButton'
 import './index.css'
@@ -20,6 +19,8 @@ import axiosClient from '@/axios/axiosClient'
 import { ListBox } from '..'
 import { Fragment, useEffect, useState } from 'react'
 import categoryApi from '@/apis/categoryApi'
+import FileInputMutiple from '../Input/FileInputMutiple'
+import FileInputSingle from '../Input/FileInputSingle'
 
 interface PropTypes {
   varient: string
@@ -34,7 +35,7 @@ const TextH = ({ textProps }: InputProps) => {
   return <p className='text-primary my-2'>{textProps}</p>
 }
 
-const AddCategoryDiaglog = ({ varient, dataProps }: PropTypes) => {
+const AddCategoryDialog = ({ varient, dataProps }: PropTypes) => {
   const [open, setOpen] = useState(false)
   const [baseCategories, setBaseCategories] = useState<any[]>()
   const [isLoading, setIsLoading] = useState(false)
@@ -45,7 +46,6 @@ const AddCategoryDiaglog = ({ varient, dataProps }: PropTypes) => {
     const fetchData = async () => {
       try {
         const response = await categoryApi.getBaseCategory()
-        console.log(response.data)
         setBaseCategories(response.data)
       } catch (error) {
         console.error('Error fetching data:', error)
@@ -65,15 +65,16 @@ const AddCategoryDiaglog = ({ varient, dataProps }: PropTypes) => {
   const { register, handleSubmit, control } = useForm()
 
   const handleEditCategory = async (data: any, dataProps: Category | undefined) => {
-    console.log('dataPro', dataProps)
     console.log('data:', data)
     const reqConfig: CategoryRequest = {
-      name: data.name
+      name: data.name,
+      parentCatId: data.baseCategory ? data.baseCategory : ''
     }
     const formData = new FormData()
     formData.append('data', JSON.stringify(reqConfig))
     formData.append('image', data.imageUrl[0])
-    console.log('Form data', [...formData])
+    formData.append('icon', data.iconUrl[0])
+    console.log([...formData])
     setIsLoading(true)
     const result: responseType = await axiosClient.put(`${API_URL_CATEGORY}/${dataProps?.id}`, formData, {
       headers: {
@@ -181,8 +182,13 @@ const AddCategoryDiaglog = ({ varient, dataProps }: PropTypes) => {
               </div>
             </div>
             <div className='mt-4 grid grid-cols-1 gap-4 md:grid-cols-2'>
-              <FileInput imageUrls={dataProps?.imageUrls} variant={varient} register={register} name='imageUrl' />
-              <FileInput imageUrls={dataProps?.iconUrl} variant={varient} register={register} name='iconUrl' />
+              <FileInputMutiple
+                imageUrls={dataProps?.imageUrls}
+                variant={varient}
+                register={register}
+                name='imageUrl'
+              />
+              <FileInputSingle imageUrl={dataProps?.iconUrl} variant={varient} register={register} name='iconUrl' />
             </div>
             <div className='mt-[25px] flex justify-end'>
               <div className='flex gap-4'>
@@ -208,4 +214,4 @@ const AddCategoryDiaglog = ({ varient, dataProps }: PropTypes) => {
   )
 }
 
-export default AddCategoryDiaglog
+export default AddCategoryDialog

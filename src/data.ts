@@ -314,7 +314,8 @@ export const userRows = [
     email: 'kewez@@gmail.com',
     phone: '123 456 789',
     createdAt: '01.02.2023',
-    verified: true
+    blocked: true,
+    actived: true
   },
   {
     id: 2,
@@ -324,7 +325,8 @@ export const userRows = [
     email: 'comhuhmit@gmail.com',
     phone: '123 456 789',
     createdAt: '01.02.2023',
-    verified: true
+    blocked: true,
+    actived: true
   },
   {
     id: 3,
@@ -334,7 +336,8 @@ export const userRows = [
     email: 'ujudokon@hottmail.com',
     phone: '123 456 789',
     createdAt: '01.02.2023',
-    verified: true
+    blocked: true,
+    actived: true
   },
   {
     id: 4,
@@ -344,7 +347,8 @@ export const userRows = [
     email: 'tinhavabe@gmail.com',
     phone: '123 456 789',
     createdAt: '01.02.2023',
-    verified: true
+    blocked: true,
+    actived: true
   },
   {
     id: 5,
@@ -353,7 +357,9 @@ export const userRows = [
     firstName: 'Jose',
     email: 'gobtagbes@yahoo.com',
     phone: '123 456 789',
-    createdAt: '01.02.2023'
+    createdAt: '01.02.2023',
+    blocked: false,
+    actived: true
   },
   {
     id: 6,
@@ -363,7 +369,8 @@ export const userRows = [
     email: 'vulca.eder@mail.com',
     phone: '123 456 789',
     createdAt: '01.02.2023',
-    verified: true
+    blocked: true,
+    actived: false
   },
   {
     id: 7,

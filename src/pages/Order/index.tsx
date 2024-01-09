@@ -1,8 +1,60 @@
 import { CardOrder } from '@/components'
+import { EditOrderDialog } from '@/components/Dialog'
 import ListBoxs from '@/components/Input/ListBox'
-import OrderTable from '@/components/Table/ManageCategoryClient'
+import { DataTable } from '@/components/Table'
+import { GridColDef } from '@mui/x-data-grid'
 import { Flex, Text } from '@radix-ui/themes'
 import { FaCheckToSlot } from 'react-icons/fa6'
+
+const columns: GridColDef[] = [
+  { field: 'id', headerName: 'ID', width: 90 },
+  {
+    field: 'img',
+    headerName: 'Avatar',
+    width: 100,
+    renderCell: (params) => {
+      return <img src={params.row.img || '/noavatar.png'} alt='' />
+    }
+  },
+  {
+    field: 'firstName',
+    type: 'string',
+    headerName: 'First name',
+    width: 150
+  },
+  {
+    field: 'lastName',
+    type: 'string',
+    headerName: 'Last name',
+    width: 150
+  },
+  {
+    field: 'email',
+    type: 'string',
+    headerName: 'Email',
+    width: 200
+  },
+  {
+    field: 'phone',
+    type: 'string',
+    headerName: 'Phone',
+    width: 200
+  },
+  {
+    field: 'createdAt',
+    headerName: 'Created At',
+    width: 200,
+    type: 'string'
+  },
+  {
+    field: 'verified',
+    headerName: 'Verified',
+    width: 150,
+    type: 'boolean'
+  }
+]
+
+const data = [{}]
 
 const CardStatus: TCardOrderStatus[] = [
   { Icon: FaCheckToSlot, layble: 'Order Complete', quantity: 2322 },
@@ -26,6 +78,8 @@ const TableOrder: TTableOrder[] = [
 ]
 
 const OrderPage = () => {
+  const editOrder = (data: any) => <EditOrderDialog varient='EDIT' dataProps={data} />
+
   return (
     <div className='h-[calc(100vh-88px)] overflow-auto'>
       <div
@@ -42,8 +96,8 @@ const OrderPage = () => {
             Sort
           </Text>
           <div className='flex gap-2.5 sm:gap-[26px]'>
-            <ListBoxs />
-            <ListBoxs />
+            {/* <ListBoxs />
+            <ListBoxs /> */}
           </div>
         </div>
         <Flex className='mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:col-span-4 gap-5'>
@@ -52,7 +106,7 @@ const OrderPage = () => {
           ))}
         </Flex>
         <div className='mt-5 rounded-xl'>
-          <OrderTable />
+          <DataTable slug='orders' columns={columns} rows={data} editBtn={editOrder} />
         </div>
       </div>
     </div>

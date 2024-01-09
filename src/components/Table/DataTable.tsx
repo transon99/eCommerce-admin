@@ -1,18 +1,24 @@
 import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid'
 import './DataTable.scss'
-import { Link } from 'react-router-dom'
 import ActionBtn from '../ActionBtn'
 import { MdDelete } from 'react-icons/md'
-import { AddBrandDiaglog } from '../Dialog'
+import { BANNER, BRAND, CATEGORY } from '@/constant/commonConstant'
+import brandApi from '@/apis/brandApi'
+import bannerApi from '@/apis/bannerApi'
+import categoryApi from '@/apis/categoryApi'
+import { ReactNode } from 'react'
 // import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 type Props = {
   columns: GridColDef[]
   rows: object[]
-  slug?: string
+  slug: string
+  editBtn: (data: any) => ReactNode
 }
 
 const DataTable = (props: Props) => {
+  const { editBtn } = props
+
   // TEST THE API
 
   // const queryClient = useQueryClient();
@@ -27,9 +33,23 @@ const DataTable = (props: Props) => {
   // //   }
   // // });
 
-  const handleDelete = (id: number) => {
-    //delete the item
-    // mutation.mutate(id)
+  const handleDelete = (id: string) => {
+    switch (props.slug) {
+      case BRAND:
+        brandApi.delete(id)
+        break
+
+      case BANNER:
+        bannerApi.delete(id)
+        break
+
+      case CATEGORY:
+        categoryApi.delete(id)
+        break
+      default:
+        console.log('invalid value')
+    }
+    window.location.reload()
   }
 
   const actionColumn: GridColDef = {
@@ -39,7 +59,7 @@ const DataTable = (props: Props) => {
     renderCell: (param) => {
       return (
         <div className='flex justify-between gap-4 w-full'>
-          <AddBrandDiaglog varient='EDIT' dataProps={param.row} />
+          {editBtn(param.row)}
           <ActionBtn icon={MdDelete} onClick={() => handleDelete(param.row.id)} />
         </div>
       )
@@ -47,9 +67,9 @@ const DataTable = (props: Props) => {
   }
 
   return (
-    <div className='dataTable'>
+    <div>
       <DataGrid
-        className='dataGrid'
+        className='bg-white p-5'
         rows={props.rows}
         columns={[...props.columns, actionColumn]}
         initialState={{

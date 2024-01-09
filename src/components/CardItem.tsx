@@ -1,10 +1,14 @@
 import { Button, Card, Flex, Heading, Text } from '@radix-ui/themes'
 import { Link } from 'react-router-dom'
-import { AddProductDialog } from '.'
+import { AddProductDialog } from './Dialog'
 
-interface Props extends Product {}
+interface Props extends Product {
+  categoriesData: Category[]
+  brandsData: Brand[]
+}
 
 const CardItem = (props: Props) => {
+  console.log('props =====>', props)
   const salePrice = (1 - (props?.discount ?? 0) / 100) * (props?.priceUnit ?? 0)
   return (
     <div className='bg-secondary' key={props.id}>
@@ -47,7 +51,12 @@ const CardItem = (props: Props) => {
           </Flex>
         </Flex>
         <div className='grid grid-cols-2 gap-1.5 mt-4'>
-          <AddProductDialog varient='EDIT' />
+          <AddProductDialog
+            varient='EDIT'
+            dataProps={props}
+            categoriesData={props.categoriesData}
+            brandsData={props.brandsData}
+          />
 
           <Button
             variant='outline'

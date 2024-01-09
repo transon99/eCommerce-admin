@@ -2,6 +2,8 @@ import DataTable from '@/components/Table/DataTable'
 import { GridColDef } from '@mui/x-data-grid'
 import { userRows } from '../../data'
 import { Text } from '@radix-ui/themes'
+import { AddProductDialog } from '@/components/Dialog'
+import EditUserDialog from '@/components/Dialog/EditUserDialog'
 
 const columns: GridColDef[] = [
   { field: 'id', headerName: 'ID', width: 90 },
@@ -10,7 +12,7 @@ const columns: GridColDef[] = [
     headerName: 'Avatar',
     width: 100,
     renderCell: (params) => {
-      return <img src={params.row.img || '/noavatar.png'} alt='' />
+      return <img className='rounded-full w-10 h-10' src={params.row.img || '/noavatar.png'} alt='' />
     }
   },
   {
@@ -35,23 +37,30 @@ const columns: GridColDef[] = [
     field: 'phone',
     type: 'string',
     headerName: 'Phone',
-    width: 200
+    width: 120
   },
   {
-    field: 'createdAt',
-    headerName: 'Created At',
+    field: 'address',
+    headerName: 'Address',
     width: 200,
     type: 'string'
   },
   {
-    field: 'verified',
-    headerName: 'Verified',
-    width: 150,
+    field: 'actived',
+    headerName: 'Actived',
+    width: 100,
+    type: 'boolean'
+  },
+  {
+    field: 'blocked',
+    headerName: 'Blocked',
+    width: 100,
     type: 'boolean'
   }
 ]
 
 const UserPage = () => {
+  const editUser = (data: any) => <EditUserDialog varient='EDIT' dataProps={data} />
   return (
     <div className='h-[calc(100vh-88px)] overflow-auto'>
       <div
@@ -74,7 +83,7 @@ const UserPage = () => {
           </Text>
         </div>
         <div className='mt-5 rounded-xl'>
-          <DataTable slug='users' columns={columns} rows={userRows} />
+          <DataTable slug='users' columns={columns} rows={userRows} editBtn={editUser} />
         </div>
       </div>
     </div>

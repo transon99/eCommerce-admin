@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react'
-import { AddBrandDiaglog } from '@/components/Dialog'
-import Search from '@/components/Search'
-import ManageBrandClient from '@/components/Table/ManageBrandClient'
+import { AddBrandDialog } from '@/components/Dialog'
 import { Flex, Text } from '@radix-ui/themes'
 import brandApi from '@/apis/brandApi'
 import { GridColDef } from '@mui/x-data-grid'
@@ -27,6 +25,8 @@ const columns: GridColDef[] = [
 ]
 
 const BrandPage = () => {
+  const editBrand = (data: any) => <AddBrandDialog varient='EDIT' dataProps={data} />
+
   const [data, setData] = useState<Brand[]>([])
   console.log(data)
 
@@ -61,7 +61,7 @@ const BrandPage = () => {
         </div>
         <div className='flex flex-col-reverse gap-4  md:flex-col lg:flex-row lg:justify-between p-5 pt-0'>
           <Flex direction={'column'} gap={'3'}>
-            <AddBrandDiaglog varient='ADD' />
+            <AddBrandDialog varient='ADD' />
           </Flex>
         </div>
         <div className='flex flex-col flex-1 p-5 text-primary'>
@@ -77,7 +77,7 @@ const BrandPage = () => {
             </div>
           </div>
           <div className='mt-5 rounded-xl'>
-            <DataTable columns={columns} rows={data} />
+            <DataTable slug='brands' columns={columns} rows={data} editBtn={editBrand} />
           </div>
         </div>
       </div>

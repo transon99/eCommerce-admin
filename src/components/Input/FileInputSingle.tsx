@@ -1,14 +1,20 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { UseFormRegister } from 'react-hook-form'
 type inputProps = {
-  imageUrls?: any[] | undefined
+  imageUrl?: any
   variant?: string | undefined
   register: UseFormRegister<any>
   name: string
 }
 
-const FileInput = ({ imageUrls, variant, register, name }: inputProps) => {
+const FileInputSingle = ({ imageUrl, variant, register, name }: inputProps) => {
   const [previews, setPreviews] = useState<string[] | ArrayBuffer[] | null>([])
+
+  useEffect(() => {
+    const imageList = []
+    imageList.push(imageUrl?.thumbnailUrl)
+    if (variant === 'EDIT') setPreviews(imageList)
+  }, [])
 
   const previewF = (file: FileList) => {
     let previewUrls = []
@@ -51,19 +57,13 @@ const FileInput = ({ imageUrls, variant, register, name }: inputProps) => {
         />
       </label>
 
-      {variant === 'ADD' ? (
-        previews && (
-          <p className='my-5 w-full grid grid-cols-1 gap-4 md:grid-cols-2'>
-            {previews?.map((preview, index) => <img key={index} src={preview as string} alt='Upload preview' />)}
-          </p>
-        )
-      ) : (
-        <p className='my-5 w-full '>
-          {imageUrls?.map((image) => <img key={image.id} src={image.thumbnailUrl} alt='Upload preview' />)}
+      {previews && (
+        <p className='my-5 w-full grid grid-cols-1 gap-4 md:grid-cols-2'>
+          {previews?.map((preview, index) => <img key={index} src={preview as string} alt='Upload preview' />)}
         </p>
       )}
     </div>
   )
 }
 
-export default FileInput
+export default FileInputSingle

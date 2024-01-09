@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Flex, Text } from '@radix-ui/themes'
-import { AddCategoryDiaglog } from '@/components/Dialog'
+import { AddCategoryDialog } from '@/components/Dialog'
 import categoryApi from '@/apis/categoryApi'
 import { GridColDef } from '@mui/x-data-grid'
 import DataTable from '@/components/Table/DataTable'
@@ -15,7 +15,7 @@ const columns: GridColDef[] = [
     width: 120,
     renderCell: (param) => {
       return (
-        <div className='w-10 h-10 rounded-lg overflow-hidden'>
+        <div className='w-10 h-10 rounded-lg object-cover'>
           {param.row.imageUrls?.map((imageUrl: any) => <img key={imageUrl.id} src={imageUrl.thumbnailUrl} />)}
         </div>
       )
@@ -37,7 +37,6 @@ const columns: GridColDef[] = [
 
 const CategoryPage = () => {
   const [data, setData] = useState<Category[]>([])
-  console.log(data)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -58,6 +57,8 @@ const CategoryPage = () => {
     fetchData()
   }, [])
 
+  const editCategory = (data: any) => <AddCategoryDialog varient='EDIT' dataProps={data} />
+
   return (
     <div className='h-[calc(100vh-88px)] overflow-auto'>
       <div
@@ -70,7 +71,7 @@ const CategoryPage = () => {
       </div>
       <div className='flex flex-col-reverse gap-4  md:flex-col lg:flex-row lg:justify-between p-5 pt-0'>
         <Flex direction={'column'} gap={'3'}>
-          <AddCategoryDiaglog varient='ADD' />
+          <AddCategoryDialog varient='ADD' />
         </Flex>
       </div>
       <div className='flex flex-col flex-1 p-5 text-primary'>
@@ -83,7 +84,7 @@ const CategoryPage = () => {
           </Text>
         </div>
         <div className='mt-5 rounded-xl'>
-          <DataTable slug='users' columns={columns} rows={data} />
+          <DataTable slug='category' columns={columns} rows={data} editBtn={editCategory} />
         </div>
       </div>
     </div>

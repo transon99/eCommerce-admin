@@ -19,9 +19,6 @@ import FileInput from '../Input/FileInputSingle'
 import { Input } from '../Input/Input'
 import CustomButton from '../common/CustomButton'
 import './index.css'
-import ActionBtn from '../ActionBtn'
-import { MdEdit } from 'react-icons/md'
-import FileInputMutiple from '../Input/FileInputMutiple'
 
 interface PropTypes {
   varient: string
@@ -38,7 +35,7 @@ const TextH = ({ textProps }: InputProps) => {
   return <p className='text-primary my-2'>{textProps}</p>
 }
 
-const AddProductDialog = ({ varient, dataProps, categoriesData, brandsData }: PropTypes) => {
+const EditOrderDialog = ({ varient, dataProps, categoriesData, brandsData }: PropTypes) => {
   const [open, setOpen] = React.useState(false)
   const [isLoading, setIsLoading] = React.useState(false)
   const theme = useTheme()
@@ -261,12 +258,7 @@ const AddProductDialog = ({ varient, dataProps, categoriesData, brandsData }: Pr
               </div>
             </div>
             <div className='mt-4 '>
-              <FileInputMutiple
-                imageUrls={dataProps?.thumbnailUrls}
-                register={register}
-                variant={varient}
-                name='imageUrls'
-              />
+              <FileInput register={register} variant={varient} name='imageUrls' />
             </div>
             <div className='mt-[25px] flex justify-end'>
               <div className='flex gap-4'>
@@ -292,4 +284,4 @@ const AddProductDialog = ({ varient, dataProps, categoriesData, brandsData }: Pr
   )
 }
 
-export default AddProductDialog
+export default EditOrderDialog

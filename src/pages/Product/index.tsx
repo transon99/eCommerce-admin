@@ -3,7 +3,8 @@
 import brandApi from '@/apis/brandApi'
 import categoryApi from '@/apis/categoryApi'
 import productApi from '@/apis/productApi'
-import { AddProductDialog, CardItem, ListBox } from '@/components'
+import { CardItem, ListBox } from '@/components'
+import { AddProductDialog } from '@/components/Dialog'
 import PaginationComponent from '@/components/Pagination'
 import Search from '@/components/Search'
 import { CustomButton } from '@/components/common'
@@ -20,7 +21,7 @@ const Product = () => {
   const [categories, setCategories] = useState<Category[]>([])
   const [brands, setBrands] = useState<Brand[]>([])
   const [products, setProducts] = useState<Product[]>([])
-  console.log(products)
+  console.log('====> producs', products)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -142,6 +143,8 @@ const Product = () => {
             >
               {products.map((product) => (
                 <CardItem
+                  categoriesData={categories}
+                  brandsData={brands}
                   name={product.name}
                   priceUnit={product.priceUnit}
                   brand={product.brand}

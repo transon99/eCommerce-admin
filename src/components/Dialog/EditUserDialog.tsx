@@ -1,5 +1,3 @@
-import { FaPencil } from 'react-icons/fa6'
-
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
@@ -21,13 +19,10 @@ import CustomButton from '../common/CustomButton'
 import './index.css'
 import ActionBtn from '../ActionBtn'
 import { MdEdit } from 'react-icons/md'
-import FileInputMutiple from '../Input/FileInputMutiple'
 
 interface PropTypes {
   varient: string
-  dataProps?: Product
-  categoriesData?: Category[]
-  brandsData?: Brand[]
+  dataProps?: User
 }
 
 interface InputProps {
@@ -38,7 +33,7 @@ const TextH = ({ textProps }: InputProps) => {
   return <p className='text-primary my-2'>{textProps}</p>
 }
 
-const AddProductDialog = ({ varient, dataProps, categoriesData, brandsData }: PropTypes) => {
+const EditUserDialog = ({ varient, dataProps }: PropTypes) => {
   const [open, setOpen] = React.useState(false)
   const [isLoading, setIsLoading] = React.useState(false)
   const theme = useTheme()
@@ -141,15 +136,7 @@ const AddProductDialog = ({ varient, dataProps, categoriesData, brandsData }: Pr
             <PiPlusCircleBold />
           </Button>
         ) : (
-          <Button
-            variant='outline'
-            color='indigo'
-            radius='full'
-            className='hover:cursor-pointer hover:bg-[#3E5093] hover:text-white col'
-          >
-            <FaPencil />
-            Edit
-          </Button>
+          <ActionBtn icon={MdEdit} />
         )}
       </div>
       <Dialog fullScreen={fullScreen} open={open} onClose={handleClose} aria-labelledby='responsive-dialog-title'>
@@ -261,12 +248,7 @@ const AddProductDialog = ({ varient, dataProps, categoriesData, brandsData }: Pr
               </div>
             </div>
             <div className='mt-4 '>
-              <FileInputMutiple
-                imageUrls={dataProps?.thumbnailUrls}
-                register={register}
-                variant={varient}
-                name='imageUrls'
-              />
+              <FileInput register={register} variant={varient} name='imageUrls' />
             </div>
             <div className='mt-[25px] flex justify-end'>
               <div className='flex gap-4'>
@@ -292,4 +274,4 @@ const AddProductDialog = ({ varient, dataProps, categoriesData, brandsData }: Pr
   )
 }
 
-export default AddProductDialog
+export default EditUserDialog
